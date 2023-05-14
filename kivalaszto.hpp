@@ -55,6 +55,8 @@ public:
      bool Get_lenyitva();
      void Rajzol();
      void intoItems();
+     void Add(string s);
+     void Remove(int index);
 };
 
 class beviteliEX: public _lista
@@ -89,25 +91,6 @@ public:
     bool rajtavan(int box1x, int box1y,int box2x, int box2y, int ex, int ey);
 };
 
-class beviteli: public szin
-{
-protected:
-    int X0, Y0, height, width;
-    string Text;
-    bool focused;
-public:
-   beviteli(int x, int y);
-   void Settext(string t);
-   string Gettext();
-   bool Focused();
-   void SetWidth(int w);
-   void SetHeight(int h);
-   void rajzol();
-   void torol();
-   bool rajtavan(int ex, int ey);
-   void TextKiir();
-   void TextTorol();
-   void handle(genv::event ev);
-};
+
 
 #endif // KIVALASZTO_HPP_INCLUDED
