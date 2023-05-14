@@ -164,6 +164,7 @@ void _lista::Add(string uj)
 void _lista::Remove(int index)
 {
    vector<string> seged;
+   cout << index << endl;
 
    for(int i=0; i<items.size();i++)
    {
@@ -290,7 +291,6 @@ int beviteliEX::rajtavan_listaelemen(int ex, int ey)
                 TextKiir();
             }
         }
-        return itemindex;
     }
 bool beviteliEX::rajtavan_lenyiton(int ex, int ey)
     {
