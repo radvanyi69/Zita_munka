@@ -5,9 +5,7 @@
 #include <cmath>
 #include <iostream>
 
-
 using namespace genv;
-using namespace std;
 
 _lista::_lista(vector<string> elemek)
 {
@@ -154,36 +152,7 @@ void _lista::intoItems()
         }
 
     }
-
-void _lista::Add(string uj)
-{
-    items.push_back(uj);
-
-}
-
-void _lista::Remove(int index)
-{
-   vector<string> seged;
-   cout << index << endl;
-
-   for(int i=0; i<items.size();i++)
-   {
-       if(i!=index)
-       {
-           seged.push_back(items[i]);
-       }
-   }
-   items.clear();
-   for(int i=0; i<seged.size();i++)
-   {
-           items.push_back(seged[i]);
-
-   }
-   intoItems();
-
-}
 //****************************************************
-
 
 beviteliEX::beviteliEX(int x, int y, vector<string> elemek): _lista(elemek)
     {
@@ -283,7 +252,7 @@ int beviteliEX::rajtavan_listaelemen(int ex, int ey)
             box2x = lX+width;
             box1y = lY+sormagassag*i;
             box2y = lY+sormagassag*(i+1)+2;
-            if(ex<=box2x && ex>=box1x && ey<=box2y && ey>=box1y)
+            if(ex<box2x && ex>box1x && ey<box2y && ey>box1y)
             {
                 itemindex = i+topitemindex;
                 Text = items[itemindex];
@@ -363,6 +332,3 @@ bool beviteliEX::rajtavan(int box1x, int box1y,int box2x, int box2y, int ex, int
     }
     return rajta;
 }
-
-
-

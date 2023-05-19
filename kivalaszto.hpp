@@ -55,8 +55,6 @@ public:
      bool Get_lenyitva();
      void Rajzol();
      void intoItems();
-     void Add(string s);
-     void Remove(int index);
 };
 
 class beviteliEX: public _lista
@@ -90,7 +88,5 @@ public:
     void handle(genv::event e);
     bool rajtavan(int box1x, int box1y,int box2x, int box2y, int ex, int ey);
 };
-
-
 
 #endif // KIVALASZTO_HPP_INCLUDED
