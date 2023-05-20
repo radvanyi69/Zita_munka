@@ -1,4 +1,5 @@
 #include "graphics.hpp"
+#include "widget.hpp"
 #include "kivalaszto.hpp"
 #include <vector>
 #include <string>
@@ -7,7 +8,7 @@
 
 using namespace genv;
 
-_lista::_lista(vector<string> elemek)
+_lista::_lista(vector<string> elemek):widget(0,0,100,100)
 {
     items = elemek;
     itemindex = 0;
@@ -252,7 +253,7 @@ int beviteliEX::rajtavan_listaelemen(int ex, int ey)
             box2x = lX+width;
             box1y = lY+sormagassag*i;
             box2y = lY+sormagassag*(i+1)+2;
-            if(ex<box2x && ex>box1x && ey<box2y && ey>box1y)
+            if(ex<=box2x && ex>=box1x && ey<=box2y && ey>=box1y)
             {
                 itemindex = i+topitemindex;
                 Text = items[itemindex];
