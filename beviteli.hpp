@@ -1,10 +1,12 @@
 #ifndef BEVITELI_HPP_INCLUDED
 #define BEVITELI_HPP_INCLUDED
 #include "graphics.hpp"
+#include "kivalaszto.hpp"
 #include <vector>
 #include <string>
 #include <cmath>
 #include <iostream>
+
 using namespace std;
 using namespace genv;
 

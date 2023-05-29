@@ -1,7 +1,6 @@
 #ifndef KIVALASZTO_HPP_INCLUDED
 #define KIVALASZTO_HPP_INCLUDED
 #include "graphics.hpp"
-#include "widget.hpp"
 #include <vector>
 #include <string>
 #include <cmath>
@@ -9,7 +8,7 @@
 using namespace std;
 using namespace genv;
 
-class szin
+struct szin
 {
 protected:
     int r, g, b;
@@ -25,7 +24,7 @@ public:
     void Set_Blue(int blue);
 };
 
-class _lista:public szin, public widget
+class _lista:public szin
 {
 protected:
     int lX, lY;
@@ -56,6 +55,7 @@ public:
      bool Get_lenyitva();
      void Rajzol();
      void intoItems();
+     void Add_item_to_items(string s);
 };
 
 class beviteliEX: public _lista
@@ -68,6 +68,7 @@ private:
     int fontmeret;
     string font;
     int tok;
+    bool bevitelifocus;
 protected:
 
 public:
@@ -83,11 +84,14 @@ public:
     void TextKiir();
     string Get_Text();
     void TextTorol();
+    bool rajtavan_bevitelin(int ex, int ey);
     int rajtavan_listaelemen(int ex, int ey);
     bool rajtavan_lenyiton(int ex, int ey);
     bool rajtavanlistan(int ex,int ey);
     void handle(genv::event e);
     bool rajtavan(int box1x, int box1y,int box2x, int box2y, int ex, int ey);
 };
+
+
 
 #endif // KIVALASZTO_HPP_INCLUDED

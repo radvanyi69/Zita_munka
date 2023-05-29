@@ -1,15 +1,10 @@
+#include "beviteli.hpp"
 #include "graphics.hpp"
 #include "kivalaszto.hpp"
 #include <vector>
 #include <string>
 #include <cmath>
 #include <iostream>
-#include "beviteli.hpp"
-
-
-using namespace genv;
-using namespace std;
-
 
 beviteli::beviteli(int x, int y):szin()
 {
@@ -35,25 +30,25 @@ void beviteli::Settext(string t)
     Text = t;
 }
 
-void beviteli::SetWidth(int w)
+void beviteli::beviteli::SetWidth(int w)
 {
     width = w;
     rajzol();
 }
 
-void beviteli::SetHeight(int h)
+void beviteli::beviteli::SetHeight(int h)
 {
     height = h;
     rajzol();
 }
 
-void beviteli::torol()
+void beviteli::beviteli::torol()
 {
     gout << move_to(X0+2, Y0+2) << color(0,0,0) << box(width, height);
     gout << refresh;
 }
 
-void beviteli::rajzol()
+void beviteli::beviteli::rajzol()
 {
     if (focused)
     {
