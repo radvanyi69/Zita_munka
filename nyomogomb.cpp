@@ -22,8 +22,9 @@ void Nyomogomb::Setfelirat(string f)
 
 void Nyomogomb::rajzol()
 {
+    int szeles = gout.twidth(felirat);
     gout << color(100, 100, 100) << move_to(x, y)
-             << box(sx, sy)<<color(255,255,255)<< move_to(x+25,y+8)<< text(felirat);
+             << box(sx, sy)<<color(255,255,255)<< move_to(x+(sx-szeles)/2,y+8)<< text(felirat);
 }
 
 bool Nyomogomb:: rajtavane(int ex, int ey)
@@ -42,10 +43,6 @@ void Nyomogomb::handle(genv::event ev)
     if(ev.button==btn_left)
     {
         fokusz=rajtavane(ev.pos_x,ev.pos_y);
-
-    }
-    if(ev.button==btn_left&& fokusz)
-    {
 
     }
 }

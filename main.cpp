@@ -5,6 +5,7 @@
 #include <iostream>
 #include "kivalaszto.hpp"
 #include "beviteli.hpp"
+#include "nyomogomb.hpp"
 
 
 using namespace genv;
@@ -48,27 +49,62 @@ int main()
     beviteli edit = beviteli(100, 200);
     edit.rajzol();
 
+    Nyomogomb btn = Nyomogomb(600, 50, 80, 30);
+    btn.Setfelirat ("Töröl");
+    btn.rajzol();
+
+    Nyomogomb btnUpdate = Nyomogomb(600, 100, 80, 30);
+    btnUpdate.Setfelirat("Módosít");
+    btnUpdate.rajzol();
+
+    Nyomogomb btnUj = Nyomogomb(600, 150, 80, 30);
+    btnUj.Setfelirat("Uj");
+    btnUj.rajzol();
+
     gout << refresh;
     event ev;
     string egy = "";
+    string sUpdate = "";
+    string sUj = "";
+    int itemi = 0;
     while(gin >> ev && ev.keycode!=key_escape)
     {
         beex1.handle(ev);
         beex2.handle(ev);
         edit.handle(ev);
+        btn.handle(ev);
+        btnUpdate.handle(ev);
+        btnUj.handle(ev);
 
         if (ev.button == btn_left)
         {
             if (beex1.Focused())
             {
                 egy = beex1.Get_Text();
+                //itemi = beex1.itemindex;
             }
 
             if (beex2.Focused())
             {
                 egy = beex2.Get_Text();
+                itemi = beex2.itemindex;
             }
             if (edit.Focused()) egy = edit.Gettext();
+            if (btn.focused())
+            {
+                beex2.lista_elem_Remove(itemi);
+            }
+            if (btnUpdate.focused())
+            {
+                sUpdate = beex2.Get_Text() + " " + beex1.Get_Text();
+                beex2.lista_elem_Update(itemi, sUpdate);
+            }
+            if (btnUj.focused())
+            {
+                sUj = edit.Gettext();
+                beex2.Add_item_to_items(sUj);
+            }
+
         }
 
         gout << refresh;

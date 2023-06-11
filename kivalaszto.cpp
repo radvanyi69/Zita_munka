@@ -1,4 +1,5 @@
 #include "graphics.hpp"
+#include "widget.hpp"
 #include "kivalaszto.hpp"
 #include <vector>
 #include <string>
@@ -7,7 +8,7 @@
 
 using namespace genv;
 
-_lista::_lista(vector<string> elemek)
+_lista::_lista(vector<string> elemek):widget(0,0,100,100)
 {
     items = elemek;
     itemindex = 0;
@@ -23,6 +24,48 @@ _lista::_lista(vector<string> elemek)
     sormagassag = gout.cascent()+gout.cdescent();
     focus = false;
     gorgetes = false;
+}
+
+void _lista::Update(int index, string ujelem)
+{
+    vector<string> seged;
+
+   for(int i=0; i<index ;i++)
+   {
+      seged.push_back(items[i]);
+   }
+   seged.push_back(ujelem);
+   for(int i=index+1; i<items.size();i++)
+   {
+        seged.push_back(items[i]);
+   }
+   items.clear();
+   for(int i=0; i<seged.size();i++)
+   {
+           items.push_back(seged[i]);
+
+   }
+   intoItems();
+}
+
+void _lista::Remove(int index)
+{
+   vector<string> seged;
+
+   for(int i=0; i<items.size();i++)
+   {
+       if(i!=index)
+       {
+           seged.push_back(items[i]);
+       }
+   }
+   items.clear();
+   for(int i=0; i<seged.size();i++)
+   {
+           items.push_back(seged[i]);
+
+   }
+   intoItems();
 }
 
 void _lista::Add_item_to_items(string s)
@@ -164,9 +207,9 @@ beviteliEX::beviteliEX(int x, int y, vector<string> elemek): _lista(elemek)
         posY = y;
        // list_items = elemek;
         Text = "";
-        fontmeret = 12;
+        fontmeret = 14;
         font = "LiberationSans-Regular.ttf";
-        bevheight = 15;
+        bevheight = sormagassag;
         bevwidth = 100;
         tok = 0;
         bevitelifocus = false;
@@ -328,6 +371,10 @@ void beviteliEX::handle(genv::event e)
             focus = rajtavanlistan(e.pos_x, e.pos_y) || rajtavan_lenyiton(e.pos_x, e.pos_y) ;
             itemindex = rajtavan_listaelemen(e.pos_x, e.pos_y);
             bevitelifocus = rajtavan_bevitelin(e.pos_x, e.pos_y);
+            if (rajtavanlistan(e.pos_x, e.pos_y) )
+            {
+                Rajzol();
+            }
 
         }
         if (focus && e.button == btn_wheeldown)
@@ -353,7 +400,7 @@ void beviteliEX::handle(genv::event e)
             TextTorol();
             TextKiir();
         }
-        if ((e.keycode == key_backspace) && bevitelifocus)
+        if ((e.keycode == key_backspace) && bevitelifocus && Text.length()> 0)
         {
             string s = "";
             for (int i = 0; i < Text.length()-1; i++)
@@ -363,6 +410,8 @@ void beviteliEX::handle(genv::event e)
             Text = s;
             TextTorol();
             TextKiir();
+
+
         }
         if (e.keycode == key_delete && bevitelifocus)
         {
@@ -389,6 +438,18 @@ bool beviteliEX::rajtavan(int box1x, int box1y,int box2x, int box2y, int ex, int
     return rajta;
 }
 
+void beviteliEX::lista_elem_Remove(int index)
+{
+   Remove(index);
+   Text = "";
+   TextTorol();
+}
+
+void beviteliEX::lista_elem_Update(int index, string ujelem)
+{
+    Update(index, ujelem);
+    TextTorol();
+}
 // ************************************************
 
 

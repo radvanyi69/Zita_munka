@@ -1,12 +1,13 @@
 #include "beviteli.hpp"
 #include "graphics.hpp"
+#include "widget.hpp"
 #include "kivalaszto.hpp"
 #include <vector>
 #include <string>
 #include <cmath>
 #include <iostream>
 
-beviteli::beviteli(int x, int y):szin()
+beviteli::beviteli(int x, int y):widget(0,0,100,100)
 {
     X0 = x;
     Y0 = y;
@@ -99,15 +100,17 @@ void beviteli::handle(genv::event ev)
     if (ev.button == btn_left)
     {
         focused = rajtavan(ev.pos_x, ev.pos_y);
-        torol();
         rajzol();
+        TextKiir();
+        // torol();
+
     }
     if (ev.keycode > 0 && focused)
     {
         Text = Text + ev.keyutf8;
         TextKiir();
     }
-    if ((ev.keycode == key_backspace) && focused)
+    if ((ev.keycode == key_backspace) && focused && Text.length()>0)
     {
         string s = "";
         for (int i = 0; i < Text.length()-1; i++)
