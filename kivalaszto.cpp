@@ -5,6 +5,7 @@
 #include <string>
 #include <cmath>
 #include <iostream>
+#include <string.h>
 
 using namespace genv;
 
@@ -463,6 +464,24 @@ void beviteliEX::lista_Reset()
     Reset();
     TextTorol();
     rajzol();
+}
+
+void beviteliEX::Cserel(string kulcs, string ertek)
+{
+    bool volte=false;
+    int hossz=kulcs.size();
+    for(int i=0; i<items.size();i++)
+    {
+        if(items[i].substr(0,hossz)==kulcs&& items[i].substr(hossz,1)==" ")
+        {
+            volte=true;
+            items[i]=kulcs+" "+ertek;
+        }
+    }
+    if(!volte)
+    {
+        Add_item_to_items(kulcs+" "+ertek);
+    }
 }
 
 // ************************************************

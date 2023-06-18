@@ -98,6 +98,7 @@ public:
     void lista_elem_Remove(int index);
     void lista_elem_Update(int index, string ujelem);
     void lista_Reset();
+    void Cserel(string kulcs, string ertek);
 };
 
 

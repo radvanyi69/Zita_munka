@@ -65,6 +65,10 @@ int main()
     btnReset.Setfelirat("Reset");
     btnReset.rajzol();
 
+    Nyomogomb btnCsere = Nyomogomb(600, 250, 80, 30);
+    btnCsere.Setfelirat("Csere");
+    btnCsere.rajzol();
+
 
     gout << refresh;
     event ev;
@@ -72,6 +76,12 @@ int main()
     string sUpdate = "";
     string sUj = "";
     int itemi = 0;
+//    int szam=11;
+//    double szam2=(double)szam/10;
+
+    string kulcs="";
+    string ertek="";
+
     while(gin >> ev && ev.keycode!=key_escape)
     {
         beex1.handle(ev);
@@ -81,6 +91,7 @@ int main()
         btnUpdate.handle(ev);
         btnUj.handle(ev);
         btnReset.handle(ev);
+        btnCsere.handle(ev);
 
         if (ev.button == btn_left)
         {
@@ -136,6 +147,21 @@ int main()
                 else{beex2.listaRajzol();}
 
             }
+
+            if(btnCsere.focused())
+            {
+                kulcs=edit.Gettext();
+                ertek=beex1.Get_Text();
+                beex2.Cserel(kulcs, ertek);
+                  if(beex2.Get_lenyitva())
+                {
+                    beex2.listaRajzol();
+                    beex2.listaRajzol();
+                }
+                else{beex2.listaRajzol();}
+
+            }
+
 
         }
 
