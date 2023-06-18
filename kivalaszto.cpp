@@ -67,6 +67,10 @@ void _lista::Remove(int index)
    }
    intoItems();
 }
+void _lista:: Reset()
+{
+    items.clear();
+}
 
 void _lista::Add_item_to_items(string s)
 {
@@ -371,10 +375,10 @@ void beviteliEX::handle(genv::event e)
             focus = rajtavanlistan(e.pos_x, e.pos_y) || rajtavan_lenyiton(e.pos_x, e.pos_y) ;
             itemindex = rajtavan_listaelemen(e.pos_x, e.pos_y);
             bevitelifocus = rajtavan_bevitelin(e.pos_x, e.pos_y);
-            if (rajtavanlistan(e.pos_x, e.pos_y) )
-            {
-                Rajzol();
-            }
+//            if (rajtavanlistan(e.pos_x, e.pos_y) )
+//            {
+//                Rajzol();
+//            }
 
         }
         if (focus && e.button == btn_wheeldown)
@@ -454,6 +458,13 @@ void beviteliEX::lista_elem_Update(int index, string ujelem)
     }
 
 }
+void beviteliEX::lista_Reset()
+{
+    Reset();
+    TextTorol();
+    rajzol();
+}
+
 // ************************************************
 
 

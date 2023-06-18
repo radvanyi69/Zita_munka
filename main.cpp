@@ -61,6 +61,11 @@ int main()
     btnUj.Setfelirat("Uj");
     btnUj.rajzol();
 
+    Nyomogomb btnReset = Nyomogomb(600, 200, 80, 30);
+    btnReset.Setfelirat("Reset");
+    btnReset.rajzol();
+
+
     gout << refresh;
     event ev;
     string egy = "";
@@ -75,6 +80,7 @@ int main()
         btn.handle(ev);
         btnUpdate.handle(ev);
         btnUj.handle(ev);
+        btnReset.handle(ev);
 
         if (ev.button == btn_left)
         {
@@ -92,11 +98,17 @@ int main()
             if (edit.Focused()) egy = edit.Gettext();
             if (btn.focused())
             {
-                beex2.lista_elem_Remove(itemi);
+                beex2.lista_elem_Remove(itemi);         //torles
+                if(beex2.Get_lenyitva())
+                {
+                    beex2.listaRajzol();
+                    beex2.listaRajzol();
+                }
+                else{beex2.listaRajzol();}
+
             }
             if (btnUpdate.focused())
             {
-
                 sUpdate = beex2.Get_Text() + " " + beex1.Get_Text();
                 beex2.lista_elem_Update(itemi, sUpdate);
             }
@@ -111,7 +123,17 @@ int main()
                 }
                 else{beex2.listaRajzol();}
 
+            }
 
+            if(btnReset.focused())
+            {
+                beex2.lista_Reset();
+                if(beex2.Get_lenyitva())
+                {
+                    beex2.listaRajzol();
+                    beex2.listaRajzol();
+                }
+                else{beex2.listaRajzol();}
 
             }
 

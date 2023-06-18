@@ -59,6 +59,7 @@ public:
      void Rajzol();
      void intoItems();
      void Add_item_to_items(string s);
+     void Reset();
 
 };
 
@@ -96,6 +97,7 @@ public:
     bool rajtavan(int box1x, int box1y,int box2x, int box2y, int ex, int ey);
     void lista_elem_Remove(int index);
     void lista_elem_Update(int index, string ujelem);
+    void lista_Reset();
 };
 
 
