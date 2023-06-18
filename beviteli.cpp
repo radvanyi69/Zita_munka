@@ -1,17 +1,13 @@
+#include "beviteli.hpp"
 #include "graphics.hpp"
+#include "widget.hpp"
 #include "kivalaszto.hpp"
 #include <vector>
 #include <string>
 #include <cmath>
 #include <iostream>
-#include "beviteli.hpp"
 
-
-using namespace genv;
-using namespace std;
-
-
-beviteli::beviteli(int x, int y):szin()
+beviteli::beviteli(int x, int y):widget(0,0,100,100)
 {
     X0 = x;
     Y0 = y;
@@ -35,25 +31,25 @@ void beviteli::Settext(string t)
     Text = t;
 }
 
-void beviteli::SetWidth(int w)
+void beviteli::beviteli::SetWidth(int w)
 {
     width = w;
     rajzol();
 }
 
-void beviteli::SetHeight(int h)
+void beviteli::beviteli::SetHeight(int h)
 {
     height = h;
     rajzol();
 }
 
-void beviteli::torol()
+void beviteli::beviteli::torol()
 {
     gout << move_to(X0+2, Y0+2) << color(0,0,0) << box(width, height);
     gout << refresh;
 }
 
-void beviteli::rajzol()
+void beviteli::beviteli::rajzol()
 {
     if (focused)
     {
@@ -104,15 +100,17 @@ void beviteli::handle(genv::event ev)
     if (ev.button == btn_left)
     {
         focused = rajtavan(ev.pos_x, ev.pos_y);
-        torol();
         rajzol();
+        TextKiir();
+        // torol();
+
     }
     if (ev.keycode > 0 && focused)
     {
         Text = Text + ev.keyutf8;
         TextKiir();
     }
-    if ((ev.keycode == key_backspace) && focused)
+    if ((ev.keycode == key_backspace) && focused && Text.length()>0)
     {
         string s = "";
         for (int i = 0; i < Text.length()-1; i++)

@@ -1,4 +1,5 @@
 #include "graphics.hpp"
+#include "widget.hpp"
 #include "kivalaszto.hpp"
 #include <vector>
 #include <string>
@@ -7,7 +8,7 @@
 
 using namespace genv;
 
-_lista::_lista(vector<string> elemek)
+_lista::_lista(vector<string> elemek):widget(0,0,100,100)
 {
     items = elemek;
     itemindex = 0;
@@ -17,12 +18,59 @@ _lista::_lista(vector<string> elemek)
     width = 100;
     topitemindex = 0;
     maxitem = 5;
-    fontmeret = 12;
+    fontmeret = 14;
     font = "LiberationSans-Regular.ttf";
     _lenyitva = false;
     sormagassag = gout.cascent()+gout.cdescent();
     focus = false;
     gorgetes = false;
+}
+
+void _lista::Update(int index, string ujelem)
+{
+    vector<string> seged;
+
+   for(int i=0; i<index ;i++)
+   {
+      seged.push_back(items[i]);
+   }
+   seged.push_back(ujelem);
+   for(int i=index+1; i<items.size();i++)
+   {
+        seged.push_back(items[i]);
+   }
+   items.clear();
+   for(int i=0; i<seged.size();i++)
+   {
+           items.push_back(seged[i]);
+
+   }
+   intoItems();
+}
+
+void _lista::Remove(int index)
+{
+   vector<string> seged;
+
+   for(int i=0; i<items.size();i++)
+   {
+       if(i!=index)
+       {
+           seged.push_back(items[i]);
+       }
+   }
+   items.clear();
+   for(int i=0; i<seged.size();i++)
+   {
+           items.push_back(seged[i]);
+
+   }
+   intoItems();
+}
+
+void _lista::Add_item_to_items(string s)
+{
+    items.push_back(s);
 }
 
 int _lista::Get_lX()
@@ -72,7 +120,6 @@ void _lista::Set_Items(vector<string> elemek)
 
 void _lista::Set_maxitem(int Maxitem)
     {
-        // számoljuk ki a maxitem értékét a lista elemei alapján
         maxitem = Maxitem;
     }
 
@@ -160,11 +207,12 @@ beviteliEX::beviteliEX(int x, int y, vector<string> elemek): _lista(elemek)
         posY = y;
        // list_items = elemek;
         Text = "";
-        fontmeret = 12;
+        fontmeret = 14;
         font = "LiberationSans-Regular.ttf";
-        bevheight = 15;
+        bevheight = sormagassag;
         bevwidth = 100;
         tok = 0;
+        bevitelifocus = false;
     }
 
 bool beviteliEX::Focused()
@@ -238,6 +286,7 @@ int beviteliEX::rajtavan_listaelemen(int ex, int ey)
         int box2x = 0;
         int box2y = 0;
         itemindex = -1;
+
         if (items.size() <= maxitem)
         {
             hatar = items.size();
@@ -250,16 +299,18 @@ int beviteliEX::rajtavan_listaelemen(int ex, int ey)
         {
             box1x = lX;
             box2x = lX+width;
-            box1y = lY+sormagassag*i;
-            box2y = lY+sormagassag*(i+1)+2;
-            if(ex<=box2x && ex>=box1x && ey<=box2y && ey>=box1y)
+            box1y = lY+sormagassag*i+2;
+            box2y = lY+(sormagassag)*(i+1)-2;
+            if(ex<box2x && ex>box1x && ey<box2y && ey>box1y)
             {
                 itemindex = i+topitemindex;
                 Text = items[itemindex];
+                bevitelifocus = false;
                 TextTorol();
                 TextKiir();
             }
         }
+        return itemindex;
     }
 bool beviteliEX::rajtavan_lenyiton(int ex, int ey)
     {
@@ -271,6 +322,7 @@ bool beviteliEX::rajtavan_lenyiton(int ex, int ey)
         if(ex<=box2x && ex>=box1x && ey<=box2y && ey>=box1y)
         {
             rajta=true;
+            bevitelifocus = false;
         }
         return rajta;
     }
@@ -284,9 +336,26 @@ bool beviteliEX::rajtavanlistan(int ex,int ey)
         if(ex<=box2x && ex>=box1x && ey<=box2y && ey>=box1y)
         {
             rajta=true;
+            bevitelifocus = false;
         }
         return rajta;
     }
+
+bool beviteliEX::rajtavan_bevitelin(int ex, int ey)
+{
+    int box1x = posX;
+    int box1y = posY;
+    int box2x = posX+width;
+    int box2y = posY+height;
+
+    bool rajta=false;
+    if(ex<=box2x && ex>=box1x && ey<=box2y && ey>=box1y)
+    {
+        bevitelifocus = true;
+        rajta=true;
+    }
+    return rajta;
+}
 
 void beviteliEX::handle(genv::event e)
     {
@@ -301,6 +370,11 @@ void beviteliEX::handle(genv::event e)
             gorgetes = false;
             focus = rajtavanlistan(e.pos_x, e.pos_y) || rajtavan_lenyiton(e.pos_x, e.pos_y) ;
             itemindex = rajtavan_listaelemen(e.pos_x, e.pos_y);
+            bevitelifocus = rajtavan_bevitelin(e.pos_x, e.pos_y);
+            if (rajtavanlistan(e.pos_x, e.pos_y) )
+            {
+                Rajzol();
+            }
 
         }
         if (focus && e.button == btn_wheeldown)
@@ -320,7 +394,38 @@ void beviteliEX::handle(genv::event e)
             listaRajzol();
         }
 //
+        if (e.keycode > 0 && bevitelifocus)
+        {
+            Text = Text + e.keyutf8;
+            TextTorol();
+            TextKiir();
+        }
+        if ((e.keycode == key_backspace) && bevitelifocus && Text.length()> 0)
+        {
+            string s = "";
+            for (int i = 0; i < Text.length()-1; i++)
+            {
+                s = s + Text[i];
+            }
+            Text = s;
+            TextTorol();
+            TextKiir();
 
+
+        }
+        if (e.keycode == key_delete && bevitelifocus)
+        {
+            Text = "";
+            TextTorol();
+        }
+        if (e.keycode == key_enter && bevitelifocus)
+        {
+            Add_item_to_items(Text);
+            listaRajzol();
+            intoItems();
+            TextTorol();
+            listaRajzol();
+        }
     }
 
 bool beviteliEX::rajtavan(int box1x, int box1y,int box2x, int box2y, int ex, int ey)
@@ -332,3 +437,25 @@ bool beviteliEX::rajtavan(int box1x, int box1y,int box2x, int box2y, int ex, int
     }
     return rajta;
 }
+
+void beviteliEX::lista_elem_Remove(int index)
+{
+   Remove(index);
+   Text = "";
+   TextTorol();
+}
+
+void beviteliEX::lista_elem_Update(int index, string ujelem)
+{
+    if(index>-1)
+    {
+        Update(index, ujelem);
+        TextTorol();
+    }
+
+}
+// ************************************************
+
+
+//****************************************************
+

@@ -1,15 +1,18 @@
 #ifndef BEVITELI_HPP_INCLUDED
 #define BEVITELI_HPP_INCLUDED
 #include "graphics.hpp"
+#include "widget.hpp"
+#include "kivalaszto.hpp"
 #include <vector>
 #include <string>
 #include <cmath>
 #include <iostream>
+
 using namespace std;
 using namespace genv;
 
 
-class beviteli: public szin
+class beviteli: public szin, public widget
 {
 protected:
     int X0, Y0, height, width;
